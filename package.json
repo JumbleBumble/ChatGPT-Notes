@@ -1,0 +1,57 @@
+{
+	"name": "chatgpt-notes",
+	"displayName": "ChatGPT Notes",
+	"version": "0.1.0",
+	"description": "Save ChatGPT messages as notes for later. Just save, organize, and find the messages you want to keep.  ",
+	"author": "Jumble",
+	"scripts": {
+		"dev": "plasmo dev",
+		"build": "plasmo build",
+		"package": "plasmo package",
+		"icons": "node scripts/generate-icons.cjs"
+	},
+	"dependencies": {
+		"@floating-ui/dom": "^1.8.0",
+		"@plasmohq/storage": "^1.15.0",
+		"@tiptap/core": "3.31.0",
+		"@tiptap/extension-table": "3.31.0",
+		"@tiptap/pm": "3.31.0",
+		"@tiptap/react": "3.31.0",
+		"@tiptap/starter-kit": "3.31.0",
+		"css-selector-generator": "^3.9.4",
+		"dompurify": "^3.4.14",
+		"lodash": "^4.18.1",
+		"lucide-react": "^1.34.0",
+		"motion": "^13.2.0",
+		"plasmo": "^0.50.1",
+		"react": "18.2.0",
+		"react-dom": "18.2.0"
+	},
+	"devDependencies": {
+		"@ianvs/prettier-plugin-sort-imports": "4.1.1",
+		"@types/chrome": "0.0.258",
+		"@types/dompurify": "^3.0.5",
+		"@types/node": "20.11.5",
+		"@types/react": "18.2.48",
+		"@types/react-dom": "18.2.18",
+		"autoprefixer": "10.5.4",
+		"postcss": "8.5.26",
+		"prettier": "3.2.4",
+		"sharp": "^0.35.4",
+		"tailwindcss": "^3.4.17",
+		"typescript": "5.3.3"
+	},
+	"manifest": {
+		"permissions": [
+			"storage"
+		],
+		"host_permissions": [
+			"https://chatgpt.com/*",
+			"https://chat.openai.com/*"
+		]
+	},
+	"overrides": {
+		"@types/react": "18.2.48",
+		"@types/react-dom": "18.2.18"
+	}
+}

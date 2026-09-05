@@ -1,0 +1,28 @@
+{
+	"manifest_version": 3,
+	"name": "ChatGPT Notes",
+	"version": "0.1.0",
+	"description": "Save ChatGPT messages as notes for later. Just save, organize, and find the messages you want to keep.",
+	"author": "Jumble",
+	"icons": {
+		"16": "icon16.721b7357.png",
+		"48": "icon48.f544afcb.png",
+		"128": "icon128.6aa15eb0.png"
+	},
+	"action": {
+		"default_icon": {
+			"16": "icon16.721b7357.png",
+			"48": "icon48.f544afcb.png"
+		},
+		"default_popup": "popup.d334c8be.html"
+	},
+	"permissions": ["storage"],
+	"host_permissions": ["https://chatgpt.com/*", "https://chat.openai.com/*"],
+	"content_scripts": [
+		{
+			"matches": ["https://chatgpt.com/*"],
+			"js": ["chatgpt.23f890c7.js"],
+			"css": ["chatgpt.385e615f.css"]
+		}
+	]
+}

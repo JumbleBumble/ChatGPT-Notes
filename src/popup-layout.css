@@ -1,0 +1,334 @@
+html:has(#__plasmo) {
+  width: 760px;
+  height: 620px;
+  margin: 0;
+  padding: 0;
+  overflow: hidden !important;
+  scrollbar-width: none;
+}
+
+body:has(#__plasmo) {
+  width: 760px;
+  height: 620px;
+  min-width: 760px;
+  min-height: 620px;
+  max-width: 760px;
+  max-height: 620px;
+  margin: 0;
+  padding: 0;
+  overflow: hidden !important;
+  scrollbar-width: none;
+  position: fixed;
+  inset: 0;
+  background: #f7f7f8;
+}
+
+#__plasmo {
+  width: 760px;
+  height: 620px;
+  min-width: 760px;
+  min-height: 620px;
+  max-width: 760px;
+  max-height: 620px;
+  margin: 0;
+  padding: 0;
+  overflow: hidden !important;
+}
+
+html:has(#__plasmo)::-webkit-scrollbar,
+body:has(#__plasmo)::-webkit-scrollbar,
+#__plasmo::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+.notes-app {
+  display: flex;
+  width: 760px;
+  height: 600px;
+  min-width: 760px;
+  min-height: 600px;
+  max-width: 760px;
+  max-height: 600px;
+  margin: 0;
+  overflow: hidden !important;
+  background: #f7f7f8;
+  color: #171717;
+}
+
+.workspace {
+  display: flex;
+  width: auto;
+  min-width: 0;
+  min-height: 0;
+  flex: 1 1 0;
+  flex-direction: column;
+  overflow: hidden !important;
+}
+
+.workspace-body {
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+  flex: 1 1 auto;
+  overflow: hidden !important;
+}
+
+.workspace:has(.note-editor-panel) {
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  scrollbar-width: auto;
+  overscroll-behavior: contain;
+}
+
+.workspace:has(.note-editor-panel)::-webkit-scrollbar {
+  width: 10px;
+}
+
+.workspace:has(.note-editor-panel)::-webkit-scrollbar-thumb {
+  border: 3px solid transparent;
+  border-radius: 999px;
+  background: #c9c9cd;
+  background-clip: padding-box;
+}
+
+.workspace:has(.note-editor-panel)::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.workspace:has(.note-editor-panel) .workspace-body {
+  height: 102% !important;
+  overflow: visible !important;
+}
+
+.note-list-panel {
+  display: flex;
+  min-width: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  flex-shrink: 0;
+  flex-direction: column;
+  border-right: 1px solid #e8e8ea;
+  background: #fbfbfc;
+  overflow: hidden !important;
+}
+
+.note-editor-panel {
+  display: flex;
+  min-width: 0;
+  width: auto;
+  min-height: 540px;
+  height: 540px;
+  flex: 0 0 auto;
+  flex-direction: column;
+  background: white;
+  overflow: hidden !important;
+}
+
+.notes-scroll {
+  min-width: 0;
+  min-height: 0;
+  height: 0;
+  flex: 1 1 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: 7px;
+  overscroll-behavior: contain;
+}
+
+.editor-content {
+  min-width: 0;
+  min-height: 0;
+  flex: 1 1 auto;
+  overflow: auto !important;
+}
+
+.rich-editor {
+  display: flex;
+  width: 100%;
+  height: 480px;
+  min-width: 0;
+  min-height: 480px;
+  flex-direction: column;
+  background: white;
+  overflow: visible !important;
+}
+
+.rich-editor-content {
+  min-width: 0;
+  min-height: 0;
+  flex: 1 1 auto;
+  max-height: auto;
+  overflow: auto !important;
+}
+
+.rich-editor-content .ProseMirror {
+  min-height: 0;
+}
+
+.modal-backdrop {
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  max-height: none !important;
+  margin: 0 !important;
+  padding: 16px !important;
+  border: 0 !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  background: rgba(20, 20, 22, .25) !important;
+  backdrop-filter: blur(5px) !important;
+}
+
+.modal-backdrop::backdrop {
+  background: transparent;
+}
+
+.modal-card {
+  width: 330px;
+  padding: 20px;
+  border: 1px solid rgba(255, 255, 255, .8);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, .96);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, .16), 0 4px 16px rgba(0, 0, 0, .07);
+}
+
+.modal-card.compact {
+  width: 310px;
+}
+
+.modal-icon {
+  display: flex;
+  width: 36px;
+  height: 36px;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+  border-radius: 10px;
+  background: #f0f0f1;
+  color: #444448;
+}
+
+.modal-title {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -.025em;
+}
+
+.modal-description {
+  margin-top: 5px;
+  color: #8d8d92;
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.modal-input {
+  width: 100%;
+  height: 36px;
+  margin-top: 15px;
+  border: 1px solid #dedee2;
+  border-radius: 9px;
+  outline: none;
+  background: #fafafa;
+  padding: 0 10px;
+  color: #222;
+  font-size: 11px;
+}
+
+.modal-input:focus {
+  border-color: #bcbcc1;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, .03);
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 7px;
+  margin-top: 15px;
+}
+
+.create-note-modal {
+  width: 360px;
+  max-width: 100%;
+  max-height: calc(100% - 16px);
+  margin: 0;
+  padding: 20px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.create-note-modal .modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.create-note-modal .modal-header .modal-icon {
+  margin-bottom: 0;
+}
+
+.create-note-modal .modal-title {
+  margin-top: 12px;
+}
+
+.create-note-modal .modal-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex-shrink: 0;
+  margin-top: 14px;
+}
+
+.create-note-modal .modal-field label {
+  color: #65656b;
+  font-size: 10px;
+  font-weight: 650;
+}
+
+.create-note-modal .modal-input,
+.create-note-modal .modal-textarea {
+  width: 100%;
+  border: 1px solid #dedee2;
+  border-radius: 9px;
+  outline: none;
+  background: #fafafa;
+  color: #222;
+  font-size: 11px;
+}
+
+.create-note-modal .modal-input {
+  height: 36px;
+  margin-top: 0;
+  padding: 0 10px;
+}
+
+.create-note-modal .modal-textarea {
+  min-height: 112px;
+  height: 112px;
+  resize: none;
+  padding: 10px;
+  line-height: 1.55;
+}
+
+.create-note-modal .modal-input:focus,
+.create-note-modal .modal-textarea:focus {
+  border-color: #bcbcc1;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, .03);
+}
+
+.create-note-modal .modal-actions {
+  flex-shrink: 0;
+  margin-top: 16px;
+}
