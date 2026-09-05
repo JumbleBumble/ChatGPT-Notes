@@ -37,7 +37,7 @@ Save a response from ChatGPT, give it a title, put it in a folder, and come back
 
 ```bash
 git clone https://github.com/JumbleBumble/ChatGPT-Notes.git
-cd ChatGPT-Notes-Private
+cd ChatGPT-Notes
 npm install
 npm run dev
 ```
