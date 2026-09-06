@@ -20,6 +20,7 @@ type DropdownOption = {
 	value: string
 	label: ReactNode
 	disabled?: boolean
+	title?: string
 }
 
 type DropdownProps = {
@@ -215,6 +216,7 @@ export function Dropdown({
 									className={`dropdown-option ${selected ? 'is-selected' : ''} ${index === activeIndex ? 'is-active' : ''}`}
 									role="option"
 									aria-selected={selected}
+									title={option.title}
 									disabled={option.disabled}
 									onMouseEnter={() => setActiveIndex(index)}
 									onClick={() => {

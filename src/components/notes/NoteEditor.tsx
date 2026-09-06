@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from 'react'
 import {
 	Archive,
 	ArrowLeft,
+	FileDown,
 	FilePlus2,
 	Folder,
 	Search,
@@ -11,6 +12,12 @@ import {
 	X,
 } from 'lucide-react'
 import type { Note, NoteFolder } from '../../lib/notes/types'
+import {
+	exportNoteAsCsv,
+	exportNoteAsMarkdown,
+	exportNoteAsPdf,
+	getCsvRows,
+} from '../../lib/notes/export'
 import {
 	formatDate,
 	getSearchMatchCount,
@@ -33,6 +40,7 @@ type NoteEditorProps = {
 }
 
 const spring = { type: 'spring' as const, stiffness: 420, damping: 32 }
+const EXPORT_PLACEHOLDER = '__export__'
 
 export function NoteEditor({
 	note,
@@ -72,6 +80,11 @@ export function NoteEditor({
 		return highlightHtml(note.html || textToHtml(note.content), noteSearch)
 	}, [note, noteSearch])
 
+	const canExportCsv = useMemo(() => {
+		if (!note) return false
+		return getCsvRows(note.content) !== null
+	}, [note])
+
 	const searchMatches = note
 		? getSearchMatchCount(note.content, noteSearch)
 		: 0
@@ -82,6 +95,42 @@ export function NoteEditor({
 		onSaveTitle(title)
 		setDraftTitle(title)
 		setEditingTitle(false)
+	}
+
+	const handleExportMarkdown = () => {
+		if (!note) return
+		exportNoteAsMarkdown(note)
+	}
+
+	const handleExportPdf = async () => {
+		if (!note) return
+		await exportNoteAsPdf(note)
+	}
+
+	const handleExportCsv = () => {
+		if (!note || !canExportCsv) return
+		const exported = exportNoteAsCsv(note)
+		if (!exported) {
+			window.alert(
+				'CSV export is only available when the note contains valid CSV data.',
+			)
+		}
+	}
+
+	const handleExport = async (format: string) => {
+		if (format === 'markdown') {
+			handleExportMarkdown()
+			return
+		}
+
+		if (format === 'pdf') {
+			await handleExportPdf()
+			return
+		}
+
+		if (format === 'csv') {
+			handleExportCsv()
+		}
 	}
 
 	return (
@@ -284,6 +333,35 @@ export function NoteEditor({
 						>
 							Edit
 						</motion.button>
+						<div className="export-actions">
+							<Dropdown
+								value={EXPORT_PLACEHOLDER}
+								onValueChange={(value) => {
+									void handleExport(value)
+								}}
+								options={[
+									{
+										value: 'markdown',
+										label: 'Markdown (.md)',
+									},
+									{ value: 'pdf', label: 'PDF (.pdf)' },
+									{
+										value: 'csv',
+										label: 'CSV (.csv)',
+										disabled: !canExportCsv,
+										title: canExportCsv
+											? 'Export as CSV'
+											: 'CSV export requires valid CSV content in the note.',
+									},
+								]}
+								ariaLabel="Export note"
+								placeholder="Export"
+								className="export-dropdown"
+								icon={
+									<FileDown size={13} aria-hidden="true" />
+								}
+							/>
+						</div>
 						<div className="flex-1" />
 						<motion.div className="note-find" layout>
 							<Search size={14} />

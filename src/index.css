@@ -706,6 +706,36 @@ html:has(#__plasmo) {
     color: #29292b;
 }
 
+.export-actions {
+    width: 118px;
+    margin-left: 8px;
+}
+
+.export-dropdown .dropdown-trigger {
+    height: 28px;
+    padding: 0 8px;
+    border-color: #e4e4e8;
+    border-radius: 7px;
+    background: #f9f9fa;
+    color: #626269;
+    font-size: 10px;
+    font-weight: 600;
+}
+
+.export-dropdown .dropdown-trigger:hover,
+.export-dropdown.is-open .dropdown-trigger {
+    border-color: #d7d7db;
+    background: #f2f2f4;
+}
+
+.export-dropdown .dropdown-value {
+    font-size: 10px;
+}
+
+.export-dropdown .dropdown-menu {
+    min-width: 160px;
+}
+
 .note-find {
     display: flex;
     width: 168px;

@@ -239,6 +239,18 @@ body.dark-mode .note-find {
     color: #a7aab2;
 }
 
+body.dark-mode .export-dropdown .dropdown-trigger {
+    border-color: #3b3e47;
+    background: #202226;
+    color: #dfe2e8;
+}
+
+body.dark-mode .export-dropdown .dropdown-trigger:hover,
+body.dark-mode .export-dropdown.is-open .dropdown-trigger {
+    border-color: #4a4e59;
+    background: #2a2d34;
+}
+
 body.dark-mode .match-count {
     color: var(--notes-dark-muted);
 }
