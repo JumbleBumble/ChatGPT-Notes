@@ -1,7 +1,7 @@
 {
 	"manifest_version": 3,
 	"name": "ChatGPT Notes",
-	"version": "0.1.0",
+	"version": "0.2.0",
 	"description": "Save ChatGPT messages as notes for later. Just save, organize, and find the messages you want to keep.",
 	"author": "Jumble",
 	"icons": {
