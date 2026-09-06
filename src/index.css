@@ -2,10 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+    --notes-color-bg: #f7f7f8;
+    --notes-color-surface: #ffffff;
+    --notes-color-text-strong: #171717;
+    --notes-color-border-soft: #e8e8ea;
+    --notes-color-border-muted: #ededee;
+}
+
 html:has(#__plasmo) {
     font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    color: #171717;
-    background: #f7f7f8;
+    color: var(--notes-color-text-strong);
+    background: var(--notes-color-bg);
     font-synthesis: none;
     text-rendering: optimizeLegibility;
 }
@@ -63,7 +71,7 @@ html:has(#__plasmo) {
     align-items: center;
     justify-content: center;
     border-radius: 9px;
-    background: #171717;
+    background: var(--notes-color-text-strong);
     color: white;
     box-shadow: 0 4px 14px rgba(0, 0, 0, .12);
 }
@@ -89,7 +97,7 @@ html:has(#__plasmo) {
 
 .icon-button:hover {
     background: #ececee;
-    color: #171717;
+    color: var(--notes-color-text-strong);
 }
 
 .icon-button.subtle {
@@ -106,7 +114,7 @@ html:has(#__plasmo) {
     margin: 0 0 14px;
     border: 1px solid #e4e4e7;
     border-radius: 10px;
-    background: white;
+    background: var(--notes-color-surface);
     color: #202023;
     font-size: 13px;
     font-weight: 600;
@@ -202,7 +210,7 @@ html:has(#__plasmo) {
 }
 
 .folder-row.active .folder-button {
-    color: #171717;
+    color: var(--notes-color-text-strong);
     font-weight: 600;
 }
 
@@ -231,7 +239,7 @@ html:has(#__plasmo) {
     padding: 4px;
     border: 1px solid #e5e5e7;
     border-radius: 10px;
-    background: white;
+    background: var(--notes-color-surface);
     box-shadow: 0 12px 40px rgba(0, 0, 0, .12), 0 2px 8px rgba(0, 0, 0, .06);
 }
 
@@ -264,6 +272,51 @@ html:has(#__plasmo) {
     font-size: 11px;
 }
 
+.theme-toggle {
+    display: inline-flex;
+    width: 32px;
+    height: 32px;
+    align-self: flex-end;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: auto;
+    margin-right: 1px;
+    margin-bottom: 8px;
+    padding: 0;
+    border: 1px solid #dedfe3;
+    border-radius: 9px;
+    background: #f4f4f6;
+    color: #666a73;
+    cursor: pointer;
+    transition: background 160ms ease, border-color 160ms ease, color 160ms ease, transform 120ms ease;
+}
+
+.theme-toggle:hover {
+    background: #e9eaed;
+    border-color: #cfd1d6;
+    color: #202226;
+}
+
+.theme-toggle:active {
+    transform: scale(.96);
+}
+
+.theme-toggle:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+}
+
+.theme-toggle>span:first-child {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.theme-toggle-control {
+    display: none;
+}
+
 .workspace-header {
     display: flex;
     height: 58px;
@@ -271,7 +324,7 @@ html:has(#__plasmo) {
     align-items: center;
     justify-content: space-between;
     gap: 16px;
-    border-bottom: 1px solid #e8e8ea;
+    border-bottom: 1px solid var(--notes-color-border-soft);
     background: rgba(255, 255, 255, .82);
     padding: 0 16px;
     backdrop-filter: blur(14px);
@@ -311,14 +364,14 @@ html:has(#__plasmo) {
     gap: 8px;
     border: 1px solid #e4e4e7;
     border-radius: 9px;
-    background: #f7f7f8;
+    background: var(--notes-color-bg);
     padding: 0 9px;
     color: #999;
 }
 
 .global-search:focus-within {
     border-color: #cfcfd3;
-    background: white;
+    background: var(--notes-color-surface);
     box-shadow: 0 0 0 3px rgba(0, 0, 0, .03);
 }
 
@@ -335,7 +388,7 @@ html:has(#__plasmo) {
 .global-search kbd {
     border: 1px solid #dddde0;
     border-radius: 5px;
-    background: white;
+    background: var(--notes-color-surface);
     padding: 2px 5px;
     color: #929298;
     font-size: 9px;
@@ -364,7 +417,7 @@ html:has(#__plasmo) {
     padding: 0 11px;
     border: 0;
     border-radius: 8px;
-    background: #171717;
+    background: var(--notes-color-text-strong);
     color: white;
     font-size: 12px;
     font-weight: 600;
@@ -382,7 +435,7 @@ html:has(#__plasmo) {
 .list-header {
     flex-shrink: 0;
     padding: 17px 15px 13px;
-    border-bottom: 1px solid #ededee;
+    border-bottom: 1px solid var(--notes-color-border-muted);
 }
 
 .list-title {
@@ -419,14 +472,8 @@ html:has(#__plasmo) {
 
 .note-card.selected {
     border-color: #e1e1e4;
-    background: white;
+    background: var(--notes-color-surface);
     box-shadow: 0 3px 12px rgba(0, 0, 0, .035);
-}
-
-.note-card-top {
-    display: flex;
-    align-items: center;
-    gap: 7px;
 }
 
 .note-card-title {
@@ -438,11 +485,6 @@ html:has(#__plasmo) {
     font-weight: 650;
     text-overflow: ellipsis;
     white-space: nowrap;
-}
-
-.note-card-top>svg {
-    flex-shrink: 0;
-    color: #e7a91b;
 }
 
 .note-card-preview {
@@ -465,18 +507,9 @@ html:has(#__plasmo) {
     font-size: 9px;
 }
 
-.mini-folder {
-    display: flex;
-    max-width: 110px;
-    align-items: center;
-    gap: 3px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
 .loading-state,
-.empty-state {
+.empty-state,
+.no-note-selected {
     display: flex;
     height: 100%;
     align-items: center;
@@ -514,7 +547,7 @@ html:has(#__plasmo) {
     justify-content: center;
     border: 1px solid #e8e8eb;
     border-radius: 12px;
-    background: white;
+    background: var(--notes-color-surface);
     color: #89898f;
     box-shadow: 0 6px 20px rgba(0, 0, 0, .04);
 }
@@ -547,7 +580,7 @@ html:has(#__plasmo) {
     padding: 0 10px;
     border: 1px solid #e1e1e4;
     border-radius: 8px;
-    background: white;
+    background: var(--notes-color-surface);
     color: #303033;
     font-size: 11px;
     font-weight: 600;
@@ -563,18 +596,6 @@ html:has(#__plasmo) {
     padding: 14px 20px 10px;
 }
 
-.editor-title-wrap {
-    min-width: 0;
-    flex: 1;
-}
-
-.editor-heading-row {
-    display: flex;
-    min-width: 0;
-    align-items: center;
-    gap: 9px;
-}
-
 .editor-back-button {
     display: flex;
     width: 30px;
@@ -584,27 +605,31 @@ html:has(#__plasmo) {
     justify-content: center;
     border: 1px solid #e4e4e7;
     border-radius: 8px;
-    background: white;
+    background: var(--notes-color-surface);
     color: #66666b;
     cursor: pointer;
 }
 
 .editor-back-button:hover {
     background: #f2f2f3;
-    color: #171717;
+    color: var(--notes-color-text-strong);
+}
+
+.editor-title,
+.title-input {
+    padding: 0;
+    border: 0;
+    color: #18181a;
+    font-size: 21px;
+    font-weight: 720;
+    letter-spacing: -.035em;
+    background: transparent;
 }
 
 .editor-title {
     display: block;
     max-width: 100%;
     overflow: hidden;
-    padding: 0;
-    border: 0;
-    background: transparent;
-    color: #18181a;
-    font-size: 21px;
-    font-weight: 720;
-    letter-spacing: -.035em;
     text-align: left;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -613,14 +638,7 @@ html:has(#__plasmo) {
 
 .title-input {
     width: 100%;
-    padding: 0;
-    border: 0;
     outline: 0;
-    background: transparent;
-    color: #18181a;
-    font-size: 21px;
-    font-weight: 720;
-    letter-spacing: -.035em;
 }
 
 .editor-meta {
@@ -631,12 +649,6 @@ html:has(#__plasmo) {
     font-size: 9px;
 }
 
-.editor-actions {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-
 .editor-icon-button {
     display: flex;
     height: 31px;
@@ -645,14 +657,14 @@ html:has(#__plasmo) {
     justify-content: center;
     border: 1px solid #e6e6e8;
     border-radius: 8px;
-    background: white;
+    background: var(--notes-color-surface);
     color: #77777d;
     cursor: pointer;
 }
 
 .editor-icon-button:hover {
     background: #f2f2f3;
-    color: #171717;
+    color: var(--notes-color-text-strong);
 }
 
 .editor-icon-button.favorite {
@@ -663,17 +675,13 @@ html:has(#__plasmo) {
     color: #c62828;
 }
 
-.editor-close-button {
-    margin-left: 3px;
-}
-
 .editor-toolbar {
     display: flex;
     height: 42px;
     flex-shrink: 0;
     align-items: center;
     gap: 2px;
-    border-bottom: 1px solid #ededee;
+    border-bottom: 1px solid var(--notes-color-border-muted);
     padding: 0 20px;
 }
 
@@ -698,17 +706,13 @@ html:has(#__plasmo) {
     color: #29292b;
 }
 
-.toolbar-spacer {
-    flex: 1;
-}
-
 .note-find {
     display: flex;
     width: 168px;
     height: 28px;
     align-items: center;
     gap: 6px;
-    border: 1px solid #e8e8ea;
+    border: 1px solid var(--notes-color-border-soft);
     border-radius: 7px;
     background: #fafafa;
     padding: 0 7px;
@@ -788,7 +792,7 @@ html:has(#__plasmo) {
     padding: 13px;
     border: 1px solid #e4e4e7;
     border-radius: 10px;
-    background: #f7f7f8;
+    background: var(--notes-color-bg);
     font-size: 11px;
     line-height: 1.55;
 }
@@ -855,7 +859,7 @@ html:has(#__plasmo) {
 
 .content-textarea:focus {
     border-color: #cfcfd4;
-    background: white;
+    background: var(--notes-color-surface);
     box-shadow: 0 0 0 3px rgba(0, 0, 0, .025);
 }
 
@@ -878,13 +882,13 @@ html:has(#__plasmo) {
 
 .secondary-button {
     border: 1px solid #e2e2e4;
-    background: white;
+    background: var(--notes-color-surface);
     color: #444448;
 }
 
 .primary-button {
     border: 0;
-    background: #171717;
+    background: var(--notes-color-text-strong);
     color: white;
 }
 
@@ -899,7 +903,7 @@ html:has(#__plasmo) {
     align-items: center;
     justify-content: space-between;
     gap: 12px;
-    border-top: 1px solid #ededee;
+    border-top: 1px solid var(--notes-color-border-muted);
     padding: 0 20px;
 }
 
@@ -924,16 +928,6 @@ html:has(#__plasmo) {
     gap: 7px;
     color: #b1b1b6;
     font-size: 8px;
-}
-
-.no-note-selected {
-    display: flex;
-    height: 100%;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    padding: 30px;
-    text-align: center;
 }
 
 .no-note-icon {
@@ -977,10 +971,6 @@ html:has(#__plasmo) {
     height: 20px;
     margin: 0 4px;
     background: #e3e3e5;
-}
-
-.rich-toolbar-spacer {
-    flex: 1;
 }
 
 .rich-toolbar-button {

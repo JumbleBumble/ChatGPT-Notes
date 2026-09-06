@@ -326,7 +326,7 @@ export function RichTextEditor({
 						</ToolbarButton>
 					</div>
 
-					<div className="rich-toolbar-spacer" />
+					<div className="flex-1" />
 
 					<div className="rich-toolbar-group">
 						<ToolbarButton

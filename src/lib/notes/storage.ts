@@ -79,7 +79,9 @@ async function saveNote(note: Note): Promise<void> {
 async function recoverNotesFromStorage(): Promise<Note[]> {
 	if (typeof chrome === 'undefined' || !chrome.storage?.local) return []
 
-	const stored = chrome.storage.local.get(null) as unknown as Record<
+	const stored = (await (chrome.storage.local.get(
+		null,
+	) as unknown as Promise<Record<string, unknown>>)) as Record<
 		string,
 		unknown
 	>

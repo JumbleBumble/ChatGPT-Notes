@@ -1,3 +1,8 @@
+:root {
+    --notes-color-bg: #f7f7f8;
+    --notes-color-surface: #ffffff;
+}
+
 .dropdown {
     position: relative;
     min-width: 0;
@@ -25,7 +30,7 @@
 
 .dropdown-trigger:hover {
     border-color: #c9c9ce;
-    background: #f7f7f8;
+    background: var(--notes-color-bg);
 }
 
 .dropdown-trigger:focus,
@@ -33,7 +38,7 @@
 .dropdown.is-open .dropdown-trigger {
     outline: none;
     border-color: #aaaab1;
-    background: #fff;
+    background: var(--notes-color-surface);
     box-shadow: 0 0 0 2px rgba(0, 0, 0, .045);
 }
 
@@ -71,7 +76,7 @@
     padding: 5px;
     border: 1px solid #dedee2;
     border-radius: 11px;
-    background: #fff;
+    background: var(--notes-color-surface);
     color: #2d2d32;
     box-shadow: 0 16px 40px rgba(0, 0, 0, .13), 0 3px 10px rgba(0, 0, 0, .08);
 }
@@ -170,18 +175,9 @@
     width: 100%;
 }
 
-dialog[data-chatgpt-notes-ui] {
-    color: #171717;
-}
-
-dialog[data-chatgpt-notes-ui]::backdrop {
-    background: rgba(20, 20, 22, .25);
-    backdrop-filter: blur(5px);
-}
-
 body.dark-mode .dropdown-trigger {
-    border-color: #383a42;
-    background: #17191d;
+    border-color: var(--notes-dark-border-strong, #383a42);
+    background: var(--notes-dark-input-bg, #17191d);
     color: #e5e7eb;
 }
 
@@ -200,12 +196,12 @@ body.dark-mode .dropdown.is-open .dropdown-trigger {
 }
 
 body.dark-mode .dropdown-chevron {
-    color: #9b9faa;
+    color: var(--notes-dark-muted, #9b9faa);
 }
 
 body.dark-mode .dropdown-menu {
     border: 1px solid #3b3e47;
-    background: #202226;
+    background: var(--notes-dark-surface, #202226);
     color: #e0e2e7;
     box-shadow: 0 18px 44px rgba(0, 0, 0, .5), 0 4px 12px rgba(0, 0, 0, .28);
 }
@@ -216,22 +212,22 @@ body.dark-mode .dropdown-option {
 
 body.dark-mode .dropdown-option.is-active,
 body.dark-mode .dropdown-option:hover {
-    background: #303238;
+    background: var(--notes-dark-surface-hover, #303238);
     color: #ffffff;
 }
 
 body.dark-mode .footer-dropdown .dropdown-trigger:hover,
 body.dark-mode .footer-dropdown.is-open .dropdown-trigger {
-    background: #2b2d33;
+    background: var(--notes-dark-surface-subtle, #2b2d33);
 }
 
 body.dark-mode .create-note-modal .modal-select-wrap>svg {
-    color: #9b9faa;
+    color: var(--notes-dark-muted, #9b9faa);
 }
 
 body.dark-mode .create-note-modal .modal-select-wrap .modal-dropdown .dropdown-trigger {
-    border: 1px solid #383a42;
-    background: #17191d;
+    border: 1px solid var(--notes-dark-border-strong, #383a42);
+    background: var(--notes-dark-input-bg, #17191d);
     color: #e5e7eb;
 }
 
@@ -241,69 +237,4 @@ body.dark-mode .create-note-modal .modal-select-wrap .modal-dropdown.is-open .dr
     border: 1px solid #4b4f59;
     outline: none;
     box-shadow: none;
-}
-
-body.dark-mode dialog[data-chatgpt-notes-ui] {
-    border-color: #383a42 !important;
-    background: #202226 !important;
-    color: #e5e7eb !important;
-    box-shadow: 0 24px 80px rgba(0, 0, 0, .55), 0 8px 24px rgba(0, 0, 0, .35) !important;
-}
-
-body.dark-mode dialog[data-chatgpt-notes-ui] header {
-    border-color: #383a42 !important;
-}
-
-body.dark-mode dialog[data-chatgpt-notes-ui] footer {
-    border-color: #383a42 !important;
-    background: #1b1d21 !important;
-}
-
-body.dark-mode dialog[data-chatgpt-notes-ui] input {
-    border-color: #383a42 !important;
-    background: #17191d !important;
-    color: #f3f4f6 !important;
-}
-
-body.dark-mode dialog[data-chatgpt-notes-ui] input::placeholder {
-    color: #777b86 !important;
-}
-
-body.dark-mode dialog[data-chatgpt-notes-ui] label {
-    color: #cfd2da !important;
-}
-
-body.dark-mode dialog[data-chatgpt-notes-ui] header>div>div:last-child {
-    color: #9b9faa !important;
-}
-
-body.dark-mode dialog[data-chatgpt-notes-ui] header button[aria-label="Close"] {
-    background: #2b2d33 !important;
-    color: #cfd2da !important;
-}
-
-body.dark-mode dialog[data-chatgpt-notes-ui]>div>div:nth-child(2)>div {
-    color: #c4c7cf !important;
-}
-
-body.dark-mode dialog[data-chatgpt-notes-ui]>div>div:nth-child(2)>div:first-of-type {
-    background: #191b1f !important;
-    border-color: #383a42 !important;
-}
-
-body.dark-mode dialog[data-chatgpt-notes-ui]>div>div:nth-child(2)>div:last-of-type {
-    background: #321e20 !important;
-    border-color: #66383b !important;
-    color: #ff9a9a !important;
-}
-
-body.dark-mode dialog[data-chatgpt-notes-ui] footer button:first-child {
-    border-color: #3d4048 !important;
-    background: #24262b !important;
-    color: #d3d6dd !important;
-}
-
-body.dark-mode dialog[data-chatgpt-notes-ui] footer .save-response-primary {
-    color: #ffffff !important;
-    -webkit-text-fill-color: #ffffff !important;
 }

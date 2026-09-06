@@ -8,7 +8,15 @@
 		"dev": "plasmo dev",
 		"build": "plasmo build",
 		"package": "plasmo package",
-		"icons": "node scripts/generate-icons.cjs"
+		"icons": "node scripts/generate-icons.cjs",
+		"lint": "eslint \"src/**/*.{ts,tsx}\" \"tests/**/*.{ts,tsx}\"",
+		"typecheck": "tsc --noEmit",
+		"lint:css": "stylelint \"src/**/*.css\"",
+		"lint:css:fix": "stylelint \"src/**/*.css\" --fix",
+		"test": "vitest",
+		"test:watch": "vitest --watch",
+		"test:run": "vitest run",
+		"test:coverage": "vitest run --coverage"
 	},
 	"dependencies": {
 		"@floating-ui/dom": "^1.8.0",
@@ -28,18 +36,29 @@
 		"react-dom": "18.2.0"
 	},
 	"devDependencies": {
+		"@eslint/js": "^9.35.0",
 		"@ianvs/prettier-plugin-sort-imports": "4.1.1",
 		"@types/chrome": "0.0.258",
 		"@types/dompurify": "^3.0.5",
-		"@types/node": "20.11.5",
+		"@types/node": "^22.20.1",
 		"@types/react": "18.2.48",
 		"@types/react-dom": "18.2.18",
+		"@vitest/coverage-v8": "^5.0.0",
 		"autoprefixer": "10.5.4",
+		"eslint": "^9.35.0",
+		"eslint-plugin-react-hooks": "^5.2.0",
+		"happy-dom": "^20.14.0",
+		"globals": "^16.4.0",
 		"postcss": "8.5.26",
 		"prettier": "3.2.4",
 		"sharp": "^0.35.4",
+		"stylelint": "^16.24.0",
+		"stylelint-config-recommended": "^17.0.0",
+		"stylelint-config-tailwindcss": "^1.0.1",
 		"tailwindcss": "^3.4.17",
-		"typescript": "5.3.3"
+		"typescript-eslint": "^8.43.0",
+		"typescript": "5.3.3",
+		"vitest": "^5.0.0"
 	},
 	"manifest": {
 		"permissions": [

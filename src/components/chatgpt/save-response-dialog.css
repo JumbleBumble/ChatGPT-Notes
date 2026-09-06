@@ -1,0 +1,73 @@
+dialog[data-chatgpt-notes-ui] {
+    color: var(--notes-color-text-strong, #171717);
+}
+
+dialog[data-chatgpt-notes-ui]::backdrop {
+    background: rgba(20, 20, 22, .25);
+    backdrop-filter: blur(5px);
+}
+
+body.dark-mode dialog[data-chatgpt-notes-ui] {
+    border-color: var(--notes-dark-border-strong, #383a42) !important;
+    background: var(--notes-dark-surface, #202226) !important;
+    color: var(--notes-dark-text-base, #e5e7eb) !important;
+    box-shadow: 0 24px 80px rgba(0, 0, 0, .55), 0 8px 24px rgba(0, 0, 0, .35) !important;
+}
+
+body.dark-mode dialog[data-chatgpt-notes-ui] header {
+    border-color: var(--notes-dark-border-strong, #383a42) !important;
+}
+
+body.dark-mode dialog[data-chatgpt-notes-ui] footer {
+    border-color: var(--notes-dark-border-strong, #383a42) !important;
+    background: #1b1d21 !important;
+}
+
+body.dark-mode dialog[data-chatgpt-notes-ui] input {
+    border-color: var(--notes-dark-border-strong, #383a42) !important;
+    background: var(--notes-dark-input-bg, #17191d) !important;
+    color: var(--notes-dark-text-strong, #f3f4f6) !important;
+}
+
+body.dark-mode dialog[data-chatgpt-notes-ui] input::placeholder {
+    color: #777b86 !important;
+}
+
+body.dark-mode dialog[data-chatgpt-notes-ui] label {
+    color: #cfd2da !important;
+}
+
+body.dark-mode dialog[data-chatgpt-notes-ui] header>div>div:last-child {
+    color: var(--notes-dark-muted, #9b9faa) !important;
+}
+
+body.dark-mode dialog[data-chatgpt-notes-ui] header button[aria-label="Close"] {
+    background: var(--notes-dark-surface-subtle, #2b2d33) !important;
+    color: #cfd2da !important;
+}
+
+body.dark-mode dialog[data-chatgpt-notes-ui]>div>div:nth-child(2)>div {
+    color: #c4c7cf !important;
+}
+
+body.dark-mode dialog[data-chatgpt-notes-ui]>div>div:nth-child(2)>div:first-of-type {
+    background: #191b1f !important;
+    border-color: var(--notes-dark-border-strong, #383a42) !important;
+}
+
+body.dark-mode dialog[data-chatgpt-notes-ui]>div>div:nth-child(2)>div:last-of-type {
+    background: #321e20 !important;
+    border-color: #66383b !important;
+    color: #ff9a9a !important;
+}
+
+body.dark-mode dialog[data-chatgpt-notes-ui] footer button:first-child {
+    border-color: #3d4048 !important;
+    background: #24262b !important;
+    color: #d3d6dd !important;
+}
+
+body.dark-mode dialog[data-chatgpt-notes-ui] footer .save-response-primary {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+}

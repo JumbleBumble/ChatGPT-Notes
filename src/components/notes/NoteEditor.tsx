@@ -49,9 +49,11 @@ export function NoteEditor({
 	const [editingContent, setEditingContent] = useState(false)
 	const [draftTitle, setDraftTitle] = useState('')
 	const [noteSearch, setNoteSearch] = useState('')
+	const noteId = note?.id
+	const noteTitle = note?.title ?? ''
 
 	useEffect(() => {
-		if (!note) {
+		if (!noteId) {
 			setDraftTitle('')
 			setEditingTitle(false)
 			setEditingContent(false)
@@ -59,11 +61,11 @@ export function NoteEditor({
 			return
 		}
 
-		setDraftTitle(note.title)
+		setDraftTitle(noteTitle)
 		setEditingTitle(false)
 		setEditingContent(false)
 		setNoteSearch('')
-	}, [note?.id])
+	}, [noteId, noteTitle])
 
 	const renderedHtml = useMemo(() => {
 		if (!note) return ''
@@ -130,8 +132,8 @@ export function NoteEditor({
 					transition={spring}
 				>
 					<motion.header className="editor-header" layout="position">
-						<div className="editor-title-wrap">
-							<div className="editor-heading-row">
+						<div className="min-w-0 flex-1">
+							<div className="flex min-w-0 items-center gap-[9px]">
 								<motion.button
 									type="button"
 									className="editor-back-button"
@@ -211,7 +213,7 @@ export function NoteEditor({
 							</motion.div>
 						</div>
 
-						<div className="editor-actions">
+						<div className="flex items-center gap-[5px]">
 							<motion.button
 								type="button"
 								className={`editor-icon-button ${note.favorite ? 'favorite' : ''}`}
@@ -253,7 +255,7 @@ export function NoteEditor({
 							</motion.button>
 							<motion.button
 								type="button"
-								className="editor-icon-button editor-close-button"
+								className="editor-icon-button ml-[3px]"
 								aria-label="Close note"
 								onClick={onClose}
 								title="Back to notes"
@@ -282,7 +284,7 @@ export function NoteEditor({
 						>
 							Edit
 						</motion.button>
-						<div className="toolbar-spacer" />
+						<div className="flex-1" />
 						<motion.div className="note-find" layout>
 							<Search size={14} />
 							<input

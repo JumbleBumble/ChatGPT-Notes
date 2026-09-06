@@ -145,12 +145,13 @@ export function NoteList({
 											}}
 											whileTap={{ scale: 0.992 }}
 										>
-											<div className="note-card-top">
+											<div className="flex items-center gap-[7px]">
 												<div className="note-card-title">
 													{note.title}
 												</div>
 												{note.favorite && (
 													<Star
+														className="shrink-0 text-[#e7a91b]"
 														size={13}
 														fill="currentColor"
 													/>
@@ -167,7 +168,7 @@ export function NoteList({
 													)}
 												</span>
 												{folderName && (
-													<span className="mini-folder">
+													<span className="flex max-w-[110px] items-center gap-[3px] overflow-hidden text-ellipsis whitespace-nowrap">
 														<Folder size={11} />
 														{folderName}
 													</span>

@@ -8,6 +8,7 @@ import {
 	ROOT_FOLDER_ID,
 } from '../../lib/notes/storage'
 import { Dropdown } from '../ui/Dropdown'
+import './save-response-dialog.css'
 
 type SaveResponseDialogProps = {
 	open: boolean
