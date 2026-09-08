@@ -20,6 +20,7 @@ yarn-error.log*
 .pnpm-debug.log*
 
 # local env files
+.env
 .env*.local
 
 out/
@@ -35,3 +36,5 @@ dist/
 .github/*
 !.github/workflows/
 !.github/workflows/**
+.env
+test-results/live-captures-a-real-public-ChatGPT-share-conversation/error-context.md

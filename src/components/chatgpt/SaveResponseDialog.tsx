@@ -12,7 +12,17 @@ import './save-response-dialog.css'
 
 type SaveResponseDialogProps = {
 	open: boolean
+	mode?: 'response' | 'conversation'
 	response: ResponseData | null
+	suggestedTitle?: string
+	defaultIncludeMode?: 'both' | 'assistant'
+	onIncludeModeChange?: (mode: 'both' | 'assistant') => void
+	onResolveContent?: (options: {
+		includeMode: 'both' | 'assistant'
+	}) => Promise<{
+		response: ResponseData | null
+		suggestedTitle?: string
+	}>
 	onPickerRequired: () => Promise<ResponseData | null>
 	onClose: () => void
 }
@@ -255,7 +265,12 @@ const styles = {
 
 export function SaveResponseDialog({
 	open,
+	mode = 'response',
 	response: initialResponse,
+	suggestedTitle,
+	defaultIncludeMode = 'both',
+	onIncludeModeChange,
+	onResolveContent,
 	onPickerRequired,
 	onClose,
 }: SaveResponseDialogProps): JSX.Element | null {
@@ -270,6 +285,10 @@ export function SaveResponseDialog({
 	const [title, setTitle] = useState('')
 	const [folders, setFolders] = useState<NoteFolder[]>([])
 	const [folderId, setFolderId] = useState(ROOT_FOLDER_ID)
+	const [includeMode, setIncludeMode] = useState<'both' | 'assistant'>(
+		defaultIncludeMode,
+	)
+	const [loadingContent, setLoadingContent] = useState(false)
 	const [saving, setSaving] = useState(false)
 	const [saved, setSaved] = useState(false)
 	const [error, setError] = useState('')
@@ -278,8 +297,10 @@ export function SaveResponseDialog({
 		if (open) {
 			setMounted(true)
 			setResponse(initialResponse)
-			setTitle('')
+			setTitle(suggestedTitle ?? '')
 			setFolderId(ROOT_FOLDER_ID)
+			setIncludeMode(defaultIncludeMode)
+			setLoadingContent(false)
 			setSaving(false)
 			setSaved(false)
 			setError('')
@@ -291,7 +312,49 @@ export function SaveResponseDialog({
 					setFolders([])
 				})
 		}
-	}, [open, initialResponse])
+	}, [open, initialResponse, suggestedTitle, defaultIncludeMode])
+
+	useEffect(() => {
+		if (!open || !onResolveContent) return
+
+		let cancelled = false
+
+		setLoadingContent(true)
+
+		void onResolveContent({ includeMode })
+			.then((resolved) => {
+				if (cancelled) return
+
+				setResponse(resolved.response)
+
+				if (resolved.suggestedTitle) {
+					setTitle((currentTitle) =>
+						currentTitle.trim()
+							? currentTitle
+							: resolved.suggestedTitle ?? '',
+					)
+				}
+			})
+			.catch((resolveError) => {
+				if (cancelled) return
+
+				console.error('Failed to load content:', resolveError)
+				setError(
+					mode === 'conversation'
+						? 'Could not load this conversation automatically. You can still save once content appears on the page.'
+						: 'Could not load response automatically.',
+				)
+			})
+			.finally(() => {
+				if (!cancelled) {
+					setLoadingContent(false)
+				}
+			})
+
+		return () => {
+			cancelled = true
+		}
+	}, [open, onResolveContent, mode, includeMode])
 
 	useEffect(() => {
 		const dialog = dialogRef.current
@@ -321,7 +384,7 @@ export function SaveResponseDialog({
 	}, [open, mounted])
 
 	useEffect(() => {
-		if (!open) return
+		if (!open || mode === 'conversation') return
 
 		const previousOverflow = document.documentElement.style.overflow
 		document.documentElement.style.overflow = 'hidden'
@@ -329,7 +392,7 @@ export function SaveResponseDialog({
 		return () => {
 			document.documentElement.style.overflow = previousOverflow
 		}
-	}, [open])
+	}, [open, mode])
 
 	useEffect(() => {
 		return () => {
@@ -340,7 +403,7 @@ export function SaveResponseDialog({
 	}, [])
 
 	const close = () => {
-		if (saving) return
+		if (saving || loadingContent) return
 
 		setEntered(false)
 
@@ -356,6 +419,10 @@ export function SaveResponseDialog({
 	const ensureResponse = async () => {
 		if (response?.text.trim()) return response
 
+		if (mode === 'conversation') {
+			return null
+		}
+
 		const picked = await onPickerRequired()
 
 		if (picked?.text.trim()) {
@@ -367,7 +434,7 @@ export function SaveResponseDialog({
 	}
 
 	const handleSave = async () => {
-		if (saving || saved) return
+		if (saving || saved || loadingContent) return
 
 		setError('')
 		setSaving(true)
@@ -377,7 +444,9 @@ export function SaveResponseDialog({
 
 			if (!responseToSave) {
 				setError(
-					'Could not find any response content. Please try selecting the response again.',
+					mode === 'conversation'
+						? 'Could not find conversation content. Scroll to load messages and try again.'
+						: 'Could not find any response content. Please try selecting the response again.',
 				)
 				return
 			}
@@ -410,10 +479,30 @@ export function SaveResponseDialog({
 
 	if (!mounted) return null
 
+	const isConversation = mode === 'conversation'
+	const dialogTitle = isConversation ? 'Save conversation' : 'Save response'
+	const dialogSubtitle = isConversation
+		? 'Save this entire ChatGPT conversation to your notes library.'
+		: 'Save this ChatGPT response to your notes library.'
+	const previewLabel = isConversation
+		? 'Conversation preview'
+		: 'Response preview'
+
+	const handleIncludeModeChange = (value: string) => {
+		const nextMode = value === 'assistant' ? 'assistant' : 'both'
+		setIncludeMode(nextMode)
+		onIncludeModeChange?.(nextMode)
+	}
+
 	const dialogStyle = {
 		...styles.dialog,
 		opacity: entered ? 1 : 0,
+	}
+
+	const shellStyle = {
+		...styles.shell,
 		transform: entered ? 'scale(1)' : 'scale(0.97)',
+		transition: styles.dialog.transition,
 	}
 
 	return createPortal(
@@ -434,7 +523,7 @@ export function SaveResponseDialog({
 		>
 			<div
 				onMouseDown={(event) => event.stopPropagation()}
-				style={styles.shell}
+				style={shellStyle}
 			>
 				<header style={styles.header}>
 					<div style={{ minWidth: 0 }}>
@@ -442,18 +531,16 @@ export function SaveResponseDialog({
 							id="chatgpt-notes-dialog-title"
 							style={styles.title}
 						>
-							Save response
+							{dialogTitle}
 						</div>
 
-						<div style={styles.subtitle}>
-							Save this ChatGPT response to your notes library.
-						</div>
+						<div style={styles.subtitle}>{dialogSubtitle}</div>
 					</div>
 
 					<button
 						type="button"
 						aria-label="Close"
-						disabled={saving}
+						disabled={saving || loadingContent}
 						onClick={close}
 						onMouseEnter={(event) => {
 							if (!saving) {
@@ -477,8 +564,11 @@ export function SaveResponseDialog({
 						}}
 						style={{
 							...styles.closeButton,
-							cursor: saving ? 'default' : 'pointer',
-							opacity: saving ? 0.6 : 1,
+							cursor:
+								saving || loadingContent
+									? 'default'
+									: 'pointer',
+							opacity: saving || loadingContent ? 0.6 : 1,
 						}}
 					>
 						<X size={16} />
@@ -494,7 +584,7 @@ export function SaveResponseDialog({
 						id="chatgpt-notes-title"
 						autoFocus
 						value={title}
-						disabled={saving}
+						disabled={saving || loadingContent}
 						onChange={(event) => setTitle(event.target.value)}
 						onFocus={(event) => {
 							event.currentTarget.style.borderColor = '#a1a1aa'
@@ -521,7 +611,7 @@ export function SaveResponseDialog({
 						placeholder="Give this note a title"
 						style={{
 							...styles.input,
-							opacity: saving ? 0.65 : 1,
+							opacity: saving || loadingContent ? 0.65 : 1,
 						}}
 					/>
 
@@ -541,7 +631,7 @@ export function SaveResponseDialog({
 						<Dropdown
 							id="chatgpt-notes-folder"
 							value={folderId}
-							disabled={saving}
+							disabled={saving || loadingContent}
 							onValueChange={setFolderId}
 							options={[
 								{
@@ -558,10 +648,47 @@ export function SaveResponseDialog({
 						/>
 					</div>
 
-					{response?.text ? (
+					{isConversation && (
+						<>
+							<label
+								htmlFor="chatgpt-notes-include-mode"
+								style={{
+									...styles.label,
+									...styles.folderLabel,
+								}}
+							>
+								Include
+							</label>
+
+							<Dropdown
+								id="chatgpt-notes-include-mode"
+								value={includeMode}
+								disabled={saving || loadingContent}
+								onValueChange={handleIncludeModeChange}
+								options={[
+									{
+										value: 'both',
+										label: 'User and assistant',
+									},
+									{
+										value: 'assistant',
+										label: 'Assistant only',
+									},
+								]}
+								ariaLabel="Include"
+								className="modal-dropdown"
+							/>
+						</>
+					)}
+
+					{loadingContent ? (
+						<div style={styles.pickerNotice}>
+							Loading conversation…
+						</div>
+					) : response?.text ? (
 						<div style={styles.preview}>
 							<div style={styles.previewLabel}>
-								Response preview
+								{previewLabel}
 							</div>
 
 							<div style={styles.previewText}>
@@ -570,8 +697,9 @@ export function SaveResponseDialog({
 						</div>
 					) : (
 						<div style={styles.pickerNotice}>
-							The response could not be detected automatically.
-							Clicking save will open the element picker.
+							{isConversation
+								? 'The conversation could not be detected automatically. Scroll through the chat so all messages are visible, then try again.'
+								: 'The response could not be detected automatically. Clicking save will open the element picker.'}
 						</div>
 					)}
 
@@ -591,7 +719,7 @@ export function SaveResponseDialog({
 				<footer style={styles.footer}>
 					<button
 						type="button"
-						disabled={saving}
+						disabled={saving || loadingContent}
 						onClick={close}
 						onMouseEnter={(event) => {
 							if (!saving) {
@@ -620,8 +748,11 @@ export function SaveResponseDialog({
 						}}
 						style={{
 							...styles.cancelButton,
-							cursor: saving ? 'default' : 'pointer',
-							opacity: saving ? 0.55 : 1,
+							cursor:
+								saving || loadingContent
+									? 'default'
+									: 'pointer',
+							opacity: saving || loadingContent ? 0.55 : 1,
 						}}
 					>
 						Cancel
@@ -629,7 +760,7 @@ export function SaveResponseDialog({
 
 					<button
 						type="button"
-						disabled={saving || saved}
+						disabled={saving || saved || loadingContent}
 						onClick={() => void handleSave()}
 						onMouseEnter={(event) => {
 							if (!saving && !saved) {
@@ -658,10 +789,13 @@ export function SaveResponseDialog({
 						}}
 						style={{
 							...styles.saveButton,
-							cursor: saving || saved ? 'default' : 'pointer',
+							cursor:
+								saving || saved || loadingContent
+									? 'default'
+									: 'pointer',
 							background: saved ? '#10a37f' : '#171717',
 							borderColor: saved ? '#10a37f' : '#171717',
-							opacity: saving ? 0.7 : 1,
+							opacity: saving || loadingContent ? 0.7 : 1,
 						}}
 					>
 						{saved ? (
@@ -671,6 +805,8 @@ export function SaveResponseDialog({
 							</>
 						) : saving ? (
 							'Saving…'
+						) : loadingContent ? (
+							'Loading…'
 						) : (
 							'Save note'
 						)}

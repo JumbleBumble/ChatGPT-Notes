@@ -24,4 +24,10 @@ export default [
 			...reactHooks.configs.recommended.rules,
 		},
 	},
+	{
+		files: ['tests/e2e/**/*.{ts,mts}'],
+		rules: {
+			'react-hooks/rules-of-hooks': 'off',
+		},
+	},
 ]

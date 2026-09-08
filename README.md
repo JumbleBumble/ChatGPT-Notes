@@ -7,6 +7,8 @@ Save a response from ChatGPT, give it a title, put it in a folder, and come back
 ## Features
 
 -   Save ChatGPT responses from the response toolbar
+-   Save entire conversations from the conversation toolbar
+-   Choose whether to include both user and assistant turns or assistant-only content
 -   Create notes manually
 -   Edit notes with rich text
 -   Keep headings, lists, links, code blocks, tables, and blockquotes
@@ -18,6 +20,17 @@ Save a response from ChatGPT, give it a title, put it in a folder, and come back
 -   Search notes and search within a note
 -   Light and dark mode
 -   Automatic response detection with an element-picker fallback
+
+## Save a conversation
+
+1. Open a ChatGPT conversation.
+2. Click the **Save conversation** action from the chat controls.
+3. Choose a title, folder, and whether to save:
+    - **User and assistant** to include the full thread
+    - **Assistant only** to capture only model replies
+4. Review the preview, then click **Save note**.
+
+The extension crawls the visible conversation history, preserves the current thread order, and saves the conversation as a note in your local library.
 
 ## Export notes
 
