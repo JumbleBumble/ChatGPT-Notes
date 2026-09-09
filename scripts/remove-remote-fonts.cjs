@@ -1,40 +1,59 @@
 const fs = require('node:fs')
 const path = require('node:path')
 
-const staticDirectory = path.join(process.cwd(), '.plasmo', 'static')
+console.log('Removing remote code.')
+const directoriesToSanitize = [
+	path.join(process.cwd(), '.plasmo', 'static'),
+	path.join(process.cwd(), 'build'),
+]
 
-if (!fs.existsSync(staticDirectory)) {
-	process.exit(0)
-}
-
-const htmlFiles = []
+const htmlFiles = new Set()
+const javascriptFiles = new Set()
 
 const collectHtmlFiles = (directory) => {
+	if (!fs.existsSync(directory)) return
+
 	for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
 		const entryPath = path.join(directory, entry.name)
 		if (entry.isDirectory()) {
 			collectHtmlFiles(entryPath)
 		} else if (entry.isFile() && entry.name.endsWith('.html')) {
-			htmlFiles.push(entryPath)
+			htmlFiles.add(entryPath)
+		} else if (entry.isFile() && entry.name.endsWith('.js')) {
+			javascriptFiles.add(entryPath)
 		}
 	}
 }
 
-collectHtmlFiles(staticDirectory)
+for (const directory of directoriesToSanitize) {
+	collectHtmlFiles(directory)
+}
 
 for (const filePath of htmlFiles) {
 	const html = fs.readFileSync(filePath, 'utf8')
 	const sanitizedHtml = html
 		.replace(
-			/\s*@import url\("https:\/\/fonts\.googleapis\.com\/css2\?family=Inter:[^\"]+"\);/,
+			/\s*@import\s+(?:url\()?['"]https:\/\/fonts\.googleapis\.com\/css2\?[^'"]+['"]\)?;?/g,
 			'',
 		)
 		.replace(
-			/font-family: Inter, sans-serif;/,
+			/font-family:\s*Inter,\s*sans-serif;/g,
 			'font-family: ui-sans-serif, system-ui, sans-serif;',
 		)
 
 	if (sanitizedHtml !== html) {
 		fs.writeFileSync(filePath, sanitizedHtml)
+	}
+}
+
+for (const filePath of javascriptFiles) {
+	const javascript = fs.readFileSync(filePath, 'utf8')
+	const sanitizedJavascript = javascript.replace(
+		'https://cdnjs.cloudflare.com/ajax/libs/pdfobject/2.1.1/pdfobject.min.js',
+		'',
+	)
+
+	if (sanitizedJavascript !== javascript) {
+		fs.writeFileSync(filePath, sanitizedJavascript)
 	}
 }
